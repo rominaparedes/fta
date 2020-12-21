@@ -172,11 +172,9 @@ class Clases
 	}
 	
 	public static function guardarAsigna($idHora,$id_curso,$id_profesor){
+		echo 'ssssssssss';
 		$db=Db::getConnect();
-		$insert=$db->prepare("INSERT INTO horario_profesor VALUES (:idHora,:id_profesor,:id_curso)");
-		$insert->bindValue('idHora',$idHora);
-		$insert->bindValue('id_curso',$id_curso);
-		$insert->bindValue('id_profesor',$id_profesor);
+		$insert=$db->prepare("INSERT INTO horario_profesor VALUES ($idHora,$id_profesor,$id_curso)");
 		$insert->execute();
 	}
 

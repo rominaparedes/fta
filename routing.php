@@ -1,6 +1,6 @@
 <?php 
 $controllers=array(
-	'alumno'=>['index','register','save','show','updateshow','update','delete','search','error','buscar','guardar','verTodos','obtenerProfes','guardarAsignacion','buscaProfesor']
+	'alumno'=>['index','error','buscar','guardar','verTodos','obtenerProfes','guardarAsignacion','buscaProfesor']
 );
 
 

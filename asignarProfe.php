@@ -1,4 +1,4 @@
-<form action="?controller=alumno&action=guardarAsignacion" method="post">
+<form id = "frmAsignacion">
 	<div class="container">
 		<table class="table table-striped" align ='center'>
 			<thead>
@@ -65,6 +65,23 @@
 
 <script type="text/javascript">
 
+
+$(document).ready(function(){
+  $("#asociar").click(function(){
+    var formulario = $("#frmAsignacion").serializeArray();
+    $.ajax({
+      type: 'post',
+      dataType: 'json',
+      url: 'Controllers/alumnoController.php',
+      data: formulario,
+    }).done(function(respuesta){
+      console.log(respuesta);
+    });
+  });
+}); 
+  
+  
+  
 $(document).on('click', '#curso', function(event) {
 		var cursoSeleccionado= $(this).val();
 		$.ajax({

@@ -73,9 +73,9 @@ class UsuarioController
 		$cantC = count($clasesDisponiblesxCurso);
 		//echo print_r($clasesDisponiblesxCurso);
 		$clasesTomadasxProfesor=Clases::buscaClasesTomadasxProfe($profeSeleccionado);
+		//echo print_r($clasesTomadasxProfesor);
 		if ($clasesTomadasxProfesor){
 			$cantP = count($clasesTomadasxProfesor);
-			//echo print_r($clasesTomadasxProfesor);
 			
 			for ($i=0; $i<$cantC;$i++){
 				$igual=false;
@@ -83,7 +83,8 @@ class UsuarioController
 				for ($j=0; $j<$cantP && !$igual;$j++){
 					
 					if (($clasesDisponiblesxCurso[$i]['HR_INICIO'] <= $clasesTomadasxProfesor[$j]['HR_INICIO'] && $clasesDisponiblesxCurso[$i]['HR_INICIO'] <= $clasesTomadasxProfesor[$j]['HR_FIN'])
-						|| ($clasesDisponiblesxCurso[$i]['HR_INICIO'] <= $clasesTomadasxProfesor[$j]['HR_INICIO'] && $clasesDisponiblesxCurso[$i]['HR_INICIO'] <= $clasesTomadasxProfesor[$j]['HR_FIN'])){
+						|| ($clasesDisponiblesxCurso[$i]['HR_INICIO'] >= $clasesTomadasxProfesor[$j]['HR_INICIO'] && $clasesDisponiblesxCurso[$i]['HR_INICIO'] >= $clasesTomadasxProfesor[$j]['HR_FIN'])){
+							
 						$dias = "";
 						if ($clasesDisponiblesxCurso[$i]['LUNES'] == 1){
 							$dias = $dias .' Lunes';
@@ -106,15 +107,14 @@ class UsuarioController
 						if ($clasesDisponiblesxCurso[$i]['DOMINGO'] == 1){
 							$dias = $dias .' Domingo';
 						}
-						
-						$arreglo[] = array('horas'=> $clasesDisponiblesxCurso[$i]['HR_INICIO'].' a '. $clasesDisponiblesxCurso[$i]['HR_FIN'].' - '. $dias , 'id'=> $clasesDisponiblesxCurso[$i]['ID_HORARIO']);
+						$arreglo[] = array('horas'=> $clasesDisponiblesxCurso[$i]['HR_INICIO'].' a '. $clasesDisponiblesxCurso[$i]['HR_FIN'].' - '. $dias , 'id'=> $clasesDisponiblesxCurso[$i]['ID_HORARIO']);			
 					}
 					
-					
-				
 				}
 			}
-			echo json_encode($arreglo);
+		echo json_encode($arreglo);
+			
+			
 		}else {
 				foreach($clasesDisponiblesxCurso as $row){
 					$dias = "";
@@ -190,11 +190,15 @@ class UsuarioController
 		require_once('asignarProfe.php');
 	} */
 	
-	function guardarAsignacion($horarios,$curso,$prof){
+	function guardarAsignacion(/*$horarios,$curso,$prof*/){
 		/* $curso = $_POST['curso'];
 		$profe = $_POST['profesor']; */
+		$horarios = $_POST['horarios'];
+		$curso = $_POST['curso'];
+		$prof = $_POST['profesor'];
 		foreach($horarios as $sele){
-			//echo $sele.'-'.$curso.'-'.$profe.'<br>';
+		
+			//echo $sele.'-'.$curso.'-'.$prof.'<br>';
 			Clases::guardarAsigna($sele,$curso,$prof);
 			Clases::actualizaHorario($sele,$curso,$prof);
 		}
@@ -234,12 +238,13 @@ if(isset($_POST['func2']) && !empty($_POST['func2'])) {
 }
 
 if (isset($_POST['horarios']) && !empty($_POST['horarios'])){
-	$horarios = $_POST['horarios'];
+	echo 'sss';
+	/* $horarios = $_POST['horarios'];
 	$curso = $_POST['curso'];
-	$prof = $_POST['profesor'];
+	$prof = $_POST['profesor']; */
 	$usuario = new UsuarioController();
 	
-	$usuario->guardarAsignacion($horarios,$curso,$prof);
+	$usuario->guardarAsignacion(/*$horarios,$curso,$prof*/);
 	
 }
 
