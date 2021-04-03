@@ -83,22 +83,23 @@ $(document).ready(function(){
   
   
 $(document).on('click', '#curso', function(event) {
-		var cursoSeleccionado= $(this).val();
+		var cursoSeleccionado1= $(this).val();
 		$.ajax({
 			type: 'post',
 			url: 'Controllers/alumnoController.php',
 			dataType: 'json',
-			data:  {func: 'obtenerProfess', cursoSeleccionado: cursoSeleccionado},
+			data:  {func: 'obtenerProfess', cursoSeleccionado1: cursoSeleccionado1},
 			beforeSend:function(){
 					$('#seleccionProfes').show();
 				},
 			success:function(respuesta){
+				console.log(respuesta);
  					$('#profesor option').remove();
                     $.each(respuesta, function(index, value){
 						$("#profesor").append($("<option>",{
-							text : value[1], value:value[0]
+							text : value.NOM_PROFESOR, value:value.ID_PROFESOR
 						}))
-						verClasesDisponibles(cursoSeleccionado,value[0]);
+						verClasesDisponibles(cursoSeleccionado1,value.ID_PROFESOR);
 					});
 					
 					
@@ -109,16 +110,17 @@ $(document).on('click', '#curso', function(event) {
 		});
 	});
 	
-function verClasesDisponibles(cursoSeleccionado,profeSeleccionado){
+function verClasesDisponibles(cursoSeleccionado1,profeSeleccionado){
 	$.ajax({
 			type: 'post',
 			url: 'Controllers/alumnoController.php',
 			dataType: 'json',
-			data:  {func2: 'obtClasesDis', cursoSeleccionado: cursoSeleccionado, profeSeleccionado:profeSeleccionado},
+			data:  {func2: 'obtClasesDis', cursoSeleccionado1: cursoSeleccionado1, profeSeleccionado:profeSeleccionado},
 			beforeSend:function(){
 					$('#seleccionHorarios').show();
 				},
 			success:function(respuesta){
+					console.log(respuesta);
 					$('#horarios option').remove();
 					if (respuesta != null){					
 						$.each(respuesta, function(index, value){

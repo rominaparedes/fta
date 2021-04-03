@@ -71,9 +71,7 @@ class UsuarioController
 		
 		$clasesDisponiblesxCurso=Clases::buscaClasesDisponiblesxCurso($claseSeleccionada);
 		$cantC = count($clasesDisponiblesxCurso);
-		//echo print_r($clasesDisponiblesxCurso);
 		$clasesTomadasxProfesor=Clases::buscaClasesTomadasxProfe($profeSeleccionado);
-		//echo print_r($clasesTomadasxProfesor);
 		if ($clasesTomadasxProfesor){
 			$cantP = count($clasesTomadasxProfesor);
 			
@@ -144,37 +142,6 @@ class UsuarioController
 				echo json_encode($datoD);
 				
 		}
-		 
-		
-		/* $datoD = null;
-		if($clasesDisponiblesxCurso){
-			foreach($clasesDisponiblesxCurso as $row){
-				$dias = "";
-				if ($row['LUNES'] == 1){
-					$dias = $dias .' Lunes';
-				}
-				if ($row['MARTES'] == 1){
-					$dias = $dias .' Martes';
-				}
-				if ($row['MIERCOLES'] == 1){
-					$dias = $dias .' Miercoles';
-				}
-				if ($row['JUEVES'] == 1){
-					$dias = $dias .' Jueves';
-				}
-				if ($row['VIERNES'] == 1){
-					$dias = $dias .' Viernes';
-				}
-				if ($row['SABADO'] == 1){
-					$dias = $dias .' Sabado';
-				}
-				if ($row['DOMINGO'] == 1){
-					$dias = $dias .' Domingo';
-				}
-				$datoD[] = array('horas'=> $row['HR_INICIO'].' a '. $row['HR_FIN'] .' - '. $dias, 'id'=> $row['ID_HORARIO']);
-			}
-		} 
-		echo json_encode($datoD);  */
 	}
 	
 	
@@ -184,25 +151,31 @@ class UsuarioController
 		require_once('verBotones.php');
 	}
 	
-/* 	function buscaProfesor(){
-		$curso = $_POST['curso'];
-		$profesL=Clases::buscaProfes($curso);
-		require_once('asignarProfe.php');
-	} */
+	function obtenerReservas(){		
+		$clases=Clases::buscaClases();
+		require_once('verReservas.php');
+	}
 	
-	function guardarAsignacion(/*$horarios,$curso,$prof*/){
-		/* $curso = $_POST['curso'];
-		$profe = $_POST['profesor']; */
+	function registrarAlumno(){		
+		//$clases=Clases::buscaClases();
+		require_once('registroAlumno.php');
+	}
+	
+	
+	function guardarAsignacion(){
 		$horarios = $_POST['horarios'];
 		$curso = $_POST['curso'];
 		$prof = $_POST['profesor'];
 		foreach($horarios as $sele){
-		
-			//echo $sele.'-'.$curso.'-'.$prof.'<br>';
 			Clases::guardarAsigna($sele,$curso,$prof);
 			Clases::actualizaHorario($sele,$curso,$prof);
 		}
-		//require_once('asignarProfe.php');
+	}
+	
+	function buscaReservas($curso){
+ 		$reservas=Clases::buscaReservas($curso);
+ 		$dato = null;
+		echo json_encode($reservas);
 	}
 
 
@@ -214,7 +187,7 @@ class UsuarioController
 
 if(isset($_POST['func']) && !empty($_POST['func'])) {
 	$opcion = $_POST['func'];
-	$dato = $_POST['cursoSeleccionado'];
+	$dato = $_POST['cursoSeleccionado1'];
 	$usuario = new UsuarioController();
 
 	switch($opcion) {
@@ -226,7 +199,7 @@ if(isset($_POST['func']) && !empty($_POST['func'])) {
 
 if(isset($_POST['func2']) && !empty($_POST['func2'])) {
 	$opcion = $_POST['func2'];
-	$claseSeleccionada = $_POST['cursoSeleccionado'];
+	$claseSeleccionada = $_POST['cursoSeleccionado1'];
 	$profeSeleccionado = $_POST['profeSeleccionado'];
 	$usuario = new UsuarioController();
 
@@ -238,13 +211,16 @@ if(isset($_POST['func2']) && !empty($_POST['func2'])) {
 }
 
 if (isset($_POST['horarios']) && !empty($_POST['horarios'])){
-	echo 'sss';
-	/* $horarios = $_POST['horarios'];
-	$curso = $_POST['curso'];
-	$prof = $_POST['profesor']; */
 	$usuario = new UsuarioController();
 	
-	$usuario->guardarAsignacion(/*$horarios,$curso,$prof*/);
+	$usuario->guardarAsignacion();
+	
+}
+
+if (isset($_POST['func1']) && !empty($_POST['func1'])){
+	$usuario = new UsuarioController();
+	$curso = $_POST['cursoSeleccionado'];	
+	$usuario->buscaReservas($curso);
 	
 }
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutter_application_1/main.dart';
 
 String dia = '';
 
@@ -67,6 +68,7 @@ class Card extends StatelessWidget {
         body: {
           "id_alumno": 11111111.toString(),
           "id_curso": lista[pos]["id_curso"],
+          "id_horario": lista[pos]["id"],
         });
   }
 
@@ -107,7 +109,7 @@ class Card extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Cupos()),
+                                      builder: (context) => MyApp()),
                                 );
                               },
                             )

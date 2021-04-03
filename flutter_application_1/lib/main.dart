@@ -76,7 +76,7 @@ class MenuLateral extends StatelessWidget {
               () => {
                     Navigator.pop(ctxt),
                     Navigator.push(ctxt,
-                        new MaterialPageRoute(builder: (ctxt) => new Cupos()))
+                        new MaterialPageRoute(builder: (context) => Cupos()))
                   }),
           //CustomListTile(Icons.settings, 'Settings', () => {}),
           //CustomListTile(Icons.lock, 'Log Out', () => {}),

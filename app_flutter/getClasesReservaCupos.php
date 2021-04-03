@@ -4,7 +4,7 @@ include 'conexion.php';
 //$alumno = $_POST['id_alumno'];
 $alumno = '11111111';
 //$dia = $_POST['dia'];
-$dia = 'Sabado';
+$dia = 'Lunes';
 
 $hoy = date("Ymd");
 

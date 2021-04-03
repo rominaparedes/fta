@@ -1,4 +1,7 @@
 <?php 
+
+
+
 class Clases
 {
 	private $id;
@@ -188,6 +191,21 @@ class Clases
 		return $clases;
 	}
 	
+	public static function buscaReservas($curso){
+		$fcHoy = date("Y-m-d");
+		$db=Db::getConnect();
+		$reservas;
+		$select=$db->query("SELECT A.NOMBRE_PERSONA as NOMBRE, A.AP_PATERNO_PERSONA AS APELLIDO_P, A.AP_MATERNO_PERSONA AS APELLIDO_M, B.FECHA_RESERVA AS FECHA, C.HR_INICIO AS INICIO, C.HR_FIN AS TERMINO, B.ESTADO_RESERVA AS ESTADO, D.NOM_PROFESOR AS PROFE
+		FROM
+		PERSONA A,
+		RESERVA_CUPO_CLASE B,
+		HORARIO C,
+		PROFESOR D
+		WHERE A.RUT_PERSONA = B.RUT_PERSONA AND B.ID_HORARIO= C.ID_HORARIO AND C.ID_PROFESOR = D.ID_PROFESOR AND B.FECHA_RESERVA = '$fcHoy' AND B.ID_CURSO = $curso");
+		$reservas = $select->fetchAll();
+		return $reservas;
+	}
+	
 	public static function buscaProfes(){
 		$db=Db::getConnect();
 		$profesL;
@@ -232,15 +250,8 @@ class Clases
 	}
 	
 	public static function actualizaHorario($idHora,$id_curso,$id_profesor){
-/* 		 echo $idHora;
-		echo $id_curso;
-		echo $id_profesor;
-		die();  */
 		$db=Db::getConnect();
 		$update=$db->prepare("UPDATE horario SET ID_PROFESOR=$id_profesor WHERE ID_HORARIO=$idHora AND ID_CURSO=$id_curso");
-/* 		$update->bindValue('idHora',$idHora);
-		$update->bindValue('id_curso',$id_curso);
-		$update->bindValue('id_profesor',$id_profesor); */
 		$update->execute();
 	}
 
