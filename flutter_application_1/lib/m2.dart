@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 void main() => runApp(LoginApp());
 
 String username;
-String saludo = "";
 
 class LoginApp extends StatelessWidget {
   @override
@@ -20,7 +19,7 @@ class LoginApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/paginaPrincipal': (BuildContext context) => new Principal(),
           /*todas las paginas*/
-          //'/LoginPage': (BuildContext context) => new LoginPage(),
+          '/LoginPage': (BuildContext context) => LoginPage(),
         });
   }
 }
@@ -36,11 +35,12 @@ class _LoginPageState extends State<LoginPage> {
   String mensaje = '';
 
   Future<List> login() async {
-    final response = await http
-        .post("http://192.168.43.61:8080/fta/app_flutter/login.php", body: {
-      "rut": controllerUser.text.toString(),
-      "pass": controllerPass.text.toString(),
-    });
+    final response = await http.post(
+        "http://192.168.43.61:8080/fta/app_flutter/gbRelacionAlumnoHorario.php",
+        body: {
+          "username": controllerUser.text,
+          "password": controllerPass.text,
+        });
 
     var datauser = json.decode(response.body);
 
@@ -49,19 +49,14 @@ class _LoginPageState extends State<LoginPage> {
         mensaje = "usuario o contraseña incorrecta";
       });
     } else {
-      //if (datauser[0]["nivel"] == "admin") {
-      //Navigator.pushReplacementNamed(context, "/paginaPrincipal");
-      Navigator.of(context).pushNamed('/paginaPrincipal',
-          arguments: <String, String>{
-            'nombre': datauser[0]["NOMBRE_PERSONA"],
-            'rut': datauser[0]["RUT"]
-          });
-      //} else if (datauser[0]["nivel"] == "ventas") {
-      //Navigator.pushReplacement(context, "/paginaPrincipal");
-      //}
-      /*setState(() {
+      if (datauser[0]["nivel"] == "admin") {
+        Navigator.pushReplacementNamed(context, "/paginaPrincipal");
+      } else if (datauser[0]["nivel"] == "ventas") {
+        //Navigator.pushReplacement(context, "/paginaPrincipal");
+      }
+      setState(() {
         username = datauser[0]["username"];
-      });*/
+      });
     }
     return datauser;
   }
@@ -142,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "Password"),
                       ),
                     ),
-                    /*Align(
+                    Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 6, right: 32),
@@ -153,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                    ),*/
+                    ),
                     Spacer(),
                     new RaisedButton(
                       child: new Text("Ingresar"),

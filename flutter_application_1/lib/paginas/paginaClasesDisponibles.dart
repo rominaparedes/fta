@@ -82,51 +82,74 @@ class ElementoLista extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: lista == null ? 0 : lista.length,
-      itemBuilder: (context, posicion) {
-        return new Container(
-          padding: EdgeInsets.all(2.0),
-          child: new GestureDetector(
-            child: new RaisedButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
-              onPressed: () {
-                pos = posicion;
-                grabar();
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Ingreso Correcto"),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text("OK"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyApp()),
-                              );
-                            },
-                          )
-                        ],
-                      );
-                    });
-              },
-              color: Colors.deepPurple,
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  lista[posicion]["horas"],
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+    print(lista.length);
+    if (lista.length > 0) {
+      return new ListView.builder(
+        itemCount: lista == null ? 0 : lista.length,
+        itemBuilder: (context, posicion) {
+          return new Container(
+            padding: EdgeInsets.all(2.0),
+            child: new GestureDetector(
+              child: new RaisedButton(
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0)),
+                onPressed: () {
+                  pos = posicion;
+                  grabar();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Ingreso Correcto"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("OK"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginApp()),
+                                );
+                              },
+                            )
+                          ],
+                        );
+                      });
+                },
+                color: Colors.deepPurple,
+                child: new Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    lista[posicion]["horas"],
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
                 ),
               ),
             ),
+          );
+        },
+      );
+    } else {
+      return new Container(
+        padding: EdgeInsets.all(10.0),
+        child: new GestureDetector(
+          child: new RaisedButton(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0)),
+            onPressed: () {},
+            color: Colors.deepPurple,
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                "Este curso ya lo tienes reservado¡",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    }
   }
 }

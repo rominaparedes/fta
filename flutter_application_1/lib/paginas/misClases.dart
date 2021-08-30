@@ -14,11 +14,6 @@ class MisClases extends StatelessWidget {
         });
     var jsonBody2 = response2.body;
     var jsonData2 = json.decode(jsonBody2);
-
-    /*setState(() {
-      data2 = jsonData2;
-    });*/
-    //print(lista[pos]["curso"]);
     print(jsonData2);
     return jsonData2;
   }
@@ -45,19 +40,6 @@ class MisClases extends StatelessWidget {
                   );
           },
         ));
-    /*return Scaffold(
-        appBar: AppBar(
-          title: Text('Cards app'),
-          backgroundColor: Colors.purple,
-        ),
-        body: ListView(
-          children: <Widget>[
-            //miCard(),
-            /*miCardImage(),
-            miCardDesign(),
-            miCardImageCarga(),*/
-          ],
-        ));*/
   }
 }
 

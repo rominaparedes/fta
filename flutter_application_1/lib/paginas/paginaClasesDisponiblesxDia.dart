@@ -106,7 +106,7 @@ class ElementoLista extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 new MaterialPageRoute(
-                                    builder: (context) => MyApp()),
+                                    builder: (context) => LoginApp()),
                               );
                             },
                           )

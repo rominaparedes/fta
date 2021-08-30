@@ -175,7 +175,6 @@ class Clases
 	}
 	
 	public static function guardarAsigna($idHora,$id_curso,$id_profesor){
-		echo 'ssssssssss';
 		$db=Db::getConnect();
 		$insert=$db->prepare("INSERT INTO horario_profesor VALUES ($idHora,$id_profesor,$id_curso)");
 		$insert->execute();
@@ -191,17 +190,54 @@ class Clases
 		return $clases;
 	}
 	
-	public static function buscaReservas($curso){
-		$fcHoy = date("Y-m-d");
+	public static function buscaDetAsis(){
+		
+		$db=Db::getConnect();
+		$asis;
+		$select=$db->query("SELECT 
+								A.RUT_PERSONA,
+								concat (C.NOMBRE_PERSONA, ' ',
+								C.AP_PATERNO_PERSONA, ' ',
+								C.AP_MATERNO_PERSONA) NOMBRE_PERSONA,
+								A.CANTIDAD_CLASES,
+								A.ID_CURSO,
+								D.NOMBRE_CURSO,
+								COUNT(B.RUT_PERSONA) AS ASISTIDAS
+							FROM 
+								boleta_alumno A ,
+								reserva_cupo_clase B,
+								persona C,
+								curso D
+							WHERE 
+								A.RUT_PERSONA=B.RUT_PERSONA AND
+								A.RUT_PERSONA = C.RUT_PERSONA AND
+								A.ID_CURSO = D.ID_CURSO AND
+								YEAR(CURDATE()) = YEAR(FECHA_RESERVA) AND
+								MONTH(CURDATE()) = MONTH(FECHA_RESERVA)
+							GROUP BY A.RUT_PERSONA,C.NOMBRE_PERSONA, C.AP_PATERNO_PERSONA,C.AP_MATERNO_PERSONA,A.CANTIDAD_CLASES, A.ID_CURSO, D.NOMBRE_CURSO ORDER BY A.CANTIDAD_CLASES" );
+		$asis = $select->fetchAll();
+		return $asis;
+	}
+	
+	public static function buscaReservas($curso,$fecha,$hora){
 		$db=Db::getConnect();
 		$reservas;
-		$select=$db->query("SELECT A.NOMBRE_PERSONA as NOMBRE, A.AP_PATERNO_PERSONA AS APELLIDO_P, A.AP_MATERNO_PERSONA AS APELLIDO_M, B.FECHA_RESERVA AS FECHA, C.HR_INICIO AS INICIO, C.HR_FIN AS TERMINO, B.ESTADO_RESERVA AS ESTADO, D.NOM_PROFESOR AS PROFE
+		$select=$db->query("SELECT 
+		DATE_FORMAT(B.FECHA_RESERVA,'%d-%m-%Y') AS FECHA, 
+		C.HR_INICIO AS INICIO, 
+		C.HR_FIN AS TERMINO, 
+		B.ESTADO_RESERVA AS ESTADO, 
+		D.NOM_PROFESOR AS PROFE,
+		B.ID_HORARIO AS ID_HORARIO,
+		B.ID_RESERVA AS ID_R,
+		(SELECT COUNT(E.ID_RESERVA) FROM RESERVA_CUPO_CLASE E WHERE E.FECHA_RESERVA = '$fecha'  AND E.ESTADO_RESERVA = 'V' AND E.ID_CURSO = $curso) AS CUPOS_VAN,
+		(SELECT C.CUPOS - COUNT(E.ID_RESERVA) FROM RESERVA_CUPO_CLASE E WHERE E.FECHA_RESERVA = '$fecha'  AND E.ESTADO_RESERVA = 'V' AND E.ID_CURSO = $curso) AS DISP
 		FROM
 		PERSONA A,
 		RESERVA_CUPO_CLASE B,
 		HORARIO C,
 		PROFESOR D
-		WHERE A.RUT_PERSONA = B.RUT_PERSONA AND B.ID_HORARIO= C.ID_HORARIO AND C.ID_PROFESOR = D.ID_PROFESOR AND B.FECHA_RESERVA = '$fcHoy' AND B.ID_CURSO = $curso");
+		WHERE A.RUT_PERSONA = B.RUT_PERSONA AND B.ID_HORARIO= C.ID_HORARIO AND C.ID_PROFESOR = D.ID_PROFESOR AND B.FECHA_RESERVA = '$fecha' AND B.ID_CURSO = $curso AND C.HR_FIN >= '$hora' ");
 		$reservas = $select->fetchAll();
 		return $reservas;
 	}
@@ -212,6 +248,74 @@ class Clases
 		$select=$db->query("SELECT ID_PROFESOR, NOM_PROFESOR FROM profesor ");
 		$profesL = $select->fetchAll();
 		return  $profesL;  
+	}
+	
+	public static function buscaAlumnos($dato){
+		$db=Db::getConnect();
+		$alumnos;
+		$select=$db->query("SELECT  
+								A.RUT_PERSONA AS RUT,
+								CONCAT(A.NOMBRE_PERSONA, ' ', A.AP_PATERNO_PERSONA, ' ', A.AP_MATERNO_PERSONA) AS NOMBRE 
+							from 
+								PERSONA A,
+								PERSONA_PERFIL B,
+								HORARIO_ALUMNO C,
+								HORARIO D
+							WHERE 
+								A.RUT_PERSONA = B.RUT_PERSONA AND
+								B.ID_PERFIL = 3 AND
+								A.RUT_PERSONA = C.RUT_PERSONA AND
+								C.ID_HORARIO = D. ID_HORARIO AND
+								D.ID_CURSO = $dato
+								");
+		$alumnos = $select->fetchAll();
+		return  $alumnos;  
+	}
+	
+	public static function guardarBoleta($nrBoleta,$cantClas,$msPag,$alSel,$cursoSel){
+		$db=Db::getConnect();
+		$insert=$db->prepare("INSERT INTO boleta_alumno VALUES ($alSel,$cursoSel,$nrBoleta,$cantClas,'$msPag')");
+		$insert->execute();		
+	}
+	
+	public static function validaBoleta($msPag,$alSel,$cursoSel){
+		$db=Db::getConnect();
+		$valBol;
+		$select=$db->query("SELECT COUNT(NR_BOLETA) AS CANTIDAD FROM boleta_alumno WHERE RUT_PERSONA = $alSel AND ID_CURSO = $cursoSel AND MES_PAGO = '$msPag'");
+		$valBol = $select->fetchAll();
+		return $valBol;		
+	}
+	
+	public static function existeUsuario($uss,$pasw){
+		$db=Db::getConnect();
+		$valUsuario;
+		$select=$db->query("SELECT count(id_perfil) FROM persona_perfil where RUT_PERSONA = $uss and CONTRASENA = '$pasw'");
+		$valUsuario = $select->fetchAll();
+		return $valUsuario;		
+	}
+	
+	public static function obtPerfil($ussuario,$pasword){
+		$db=Db::getConnect();
+		$perfil;
+		$select=$db->query("SELECT id_perfil FROM persona_perfil where RUT_PERSONA = $ussuario and CONTRASENA = '$pasword'");
+		$perfil = $select->fetchAll();
+		return $perfil;		
+	}
+	
+	public static function buscaHoras($alumno,$curso){
+		$db=Db::getConnect();
+		$valHoras;
+		$select=$db->query("SELECT date_format(FECHA_RESERVA, '%d-%m-%Y') FECHA_RESERVA FROM reserva_cupo_clase where RUT_PERSONA = $alumno and ID_CURSO = $curso and month(curdate()) = month(FECHA_RESERVA) and year(curdate()) = year(FECHA_RESERVA)");
+		$valHoras = $select->fetchAll();
+		return $valHoras;		
+	}
+	
+	public static function buscaDetHras($idReserva){
+		$db=Db::getConnect();
+		$valHoras;
+		$select=$db->query("SELECT c.rut_persona, concat (nombre_persona, ' ', ap_paterno_persona, ' ', ap_materno_persona) nombre FROM reserva_cupo_clase b , persona c where c.RUT_PERSONA = b.RUT_PERSONA and b.id_reserva = $idReserva");
+		$valHoras = $select->fetchAll();
+		return $valHoras;		
 	}
 	
 	public static function buscaProfess($curso1){

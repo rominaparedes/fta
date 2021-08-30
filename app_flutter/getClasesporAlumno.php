@@ -2,7 +2,6 @@
 include 'conexion.php';
 
 $alumno = $_POST['id_alumno'];
-//$curso = 3;
 
 $queryResult = $connect->query("
 SELECT A.*, B.NOM_PROFESOR, C.NOMBRE_CURSO
