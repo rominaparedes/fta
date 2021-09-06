@@ -157,6 +157,7 @@ class Clases
 	public static function guardarClase($clases){
 		
 		$db=Db::getConnect();
+		$resp=1;
 		$insert=$db->prepare("INSERT INTO horario VALUES (NULL,:hrDesde,:hrHasta,:fcDesde,:fcHasta,:curso,'A',:lunes,:martes,:miercoles,:jueves,:viernes,:sabado,:domingo,:cupos,0,12345,'12/12/2020','18:00', null, null,null)");
 		$insert->bindValue('fcDesde',$clases->getfcDesde());
 		$insert->bindValue('fcHasta',$clases->getfcHasta());
@@ -172,6 +173,8 @@ class Clases
 		$insert->bindValue('domingo',$clases->getDomingo());
 		$insert->bindValue('curso',$clases->getCurso());
 		$insert->execute();
+		
+		return $resp;
 	}
 	
 	public static function guardarAsigna($idHora,$id_curso,$id_profesor){

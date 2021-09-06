@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../main.dart';
+import 'package:flutter_application_1/main.dart';
 
 class MisClases extends StatelessWidget {
   Future<List> busxAlumno() async {
     final response2 = await http.post(
         "http://192.168.43.61:8080/fta/app_flutter/getClasesporAlumno.php",
         body: {
-          "id_alumno": 11111111.toString(),
+          "id_alumno": rut.toString(),
         });
     var jsonBody2 = response2.body;
     var jsonData2 = json.decode(jsonBody2);
@@ -20,6 +20,7 @@ class MisClases extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(rut);
     //bus();
     //print(lista[pos]["curso"]);
     return new Scaffold(

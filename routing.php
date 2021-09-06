@@ -3,7 +3,7 @@ $controller = $_REQUEST["controller"];
 $action = $_REQUEST["action"];
 
 $controllers=array(
-	'alumno'=>['index','error','buscar','guardar','verTodos','obtenerProfes','guardarAsignacion','buscaProfesor','obtenerReservas','registrarAlumno','obtenerAlumnos','detAsis']
+	'alumno'=>['index','error','buscar','guardar','verTodos','obtenerProfes','guardarAsignacion','buscaProfesor','obtenerReservas','registrarAlumno','obtenerAlumnos','detAsis','cerrarSession']
 );
 
 

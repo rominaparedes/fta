@@ -9,8 +9,7 @@ $passw = $_POST['pass'];
 $queryResult = $connect->query("
 SELECT 
 	B.NOMBRE_PERSONA as NOMBRE_PERSONA, 
-	A.RUT_PERSONA AS RUT,
-	B.SEXO AS SEXO 
+	A.RUT_PERSONA AS RUT
 FROM 
 	PERSONA_PERFIL A, 
 	PERSONA B 

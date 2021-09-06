@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+$res = $_SESSION['logged_in_user_id'];
+?>
 <head>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -8,7 +13,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<form id = "frmAsignacion">
+<form id = "frmAsignacion" method="post">
 	<div class="container">
 		<table class="table table-striped" align ='center'>
 			<thead>
@@ -39,7 +44,7 @@
 					<div class="form-group row">
 						<div class="col-3">
 							<tr>
-								<div id="profesores" disabled class="form-group col-md-4">
+								<div id="profesores" disabled class="form-group col-md-6">
 									<label for="exampleFormControlInput1">Seleccione profesor</label>
 									<select id="profesor" name="profesor" class="form-control">
 									</select>
@@ -58,7 +63,7 @@
 					<div class="form-group row">
 						<div class="col-3">
 							<tr>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-10">
 									<label for="exampleFormControlInput1">Seleccione horario</label>
 									<select  id = "horarios" name = "horarios[]" multiple class="form-control">
 									</select>
@@ -70,6 +75,7 @@
 			</thead>
 		</table>	
 		<button id = "asociar" type="submit" class="btn btn-primary">Asociar</button>
+		<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
 	</div>
 </form>
 
@@ -84,9 +90,16 @@ $(document).ready(function(){
       dataType: 'json',
       url: 'Controllers/alumnoController.php',
       data: formulario,
-    }).done(function(respuesta){
-      console.log(respuesta);
-    });
+	   beforeSend:function(){
+				alert('Asignación Guardada');
+				},
+			success:function(respuesta){
+				alert('Asignación Guardada');
+			},
+			error:function(respuesta){
+					console.log(respuesta);
+				}
+    })
   });
 }); 
   

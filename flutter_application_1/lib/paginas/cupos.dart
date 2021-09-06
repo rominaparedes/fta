@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/paginas/paginaPrincipal.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/main.dart';
@@ -14,7 +15,7 @@ class Cupos extends StatelessWidget {
   Future<List> buscaCuposPorDia() async {
     final response2 = await http.post(
         "http://192.168.43.61:8080/fta/app_flutter/getClasesReservaCupos.php",
-        body: {"id_alumno": 11111111.toString(), "dia": dia.toString()});
+        body: {"id_alumno": rut.toString(), "dia": dia.toString()});
     var jsonBody2 = response2.body;
     var jsonData2 = json.decode(jsonBody2);
 
@@ -24,6 +25,7 @@ class Cupos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(rut);
     if (dateFormat == 'Monday') {
       dia = 'Lunes';
     } else if (dateFormat == 'Tuesday') {
@@ -66,7 +68,7 @@ class Card extends StatelessWidget {
     var response4 = await http.post(
         "http://192.168.43.61:8080/fta/app_flutter/gbRelacionAlumnoCupoHorario.php",
         body: {
-          "id_alumno": 11111111.toString(),
+          "id_alumno": rut.toString(),
           "id_curso": lista[pos]["id_curso"],
           "id_horario": lista[pos]["id"],
         });
@@ -109,7 +111,7 @@ class Card extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginApp()),
+                                      builder: (context) => Principal()),
                                 );
                               },
                             )

@@ -1,5 +1,5 @@
 <head>
-	<title>Crud PHP</title>
+	<title>Sistema de Administración FTA</title>
 	<meta charset="utf-8">
 	<!--<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 	<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
@@ -50,7 +50,10 @@
 
 	
 </head>
-
+<style>
+body{width:90%;margin: 0 auto;min-width:600px;max-width:2000px}
+</style>
+<body>
 <?php 
 	require_once('connection.php');
 
@@ -66,3 +69,4 @@
 
 	require_once('Views/alumno/ingreso.php');	
  ?>
+</body>

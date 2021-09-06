@@ -10,16 +10,19 @@ import 'package:flutter_application_1/paginas/paginaClasesDisponiblesxDia.dart';
 import 'package:flutter_application_1/paginas/paginaClasesDisponibles.dart';
 
 String tmpArray = "";
+//String rutOrigen = "";
 
 class Principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print(rut);
     final arguments = ModalRoute.of(context).settings.arguments as Map;
+    //rutOrigen = arguments['rut'];
 
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Bienvenida ' + arguments['nombre']),
+            title: Text('Bienvenido(a) ' + arguments['nombre']),
             backgroundColor: Colors.purple,
           ),
           drawer: MenuLateral(),

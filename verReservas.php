@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+$res = $_SESSION['logged_in_user_id'];
+?>
 <head>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -97,19 +102,36 @@
 			</tr>
 		  </thead>
 		  <tbody>
-		  </tbody>
+		  </tbody>		  
 		</table>
+		<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
 	</div>
 	<div class="container" id ="mostrarDatos3" style="display:none">
 		<table class="table table-striped" align ="center" id="miTabla2" >
 		  <thead>
 			<tr>
-			  <th scope="col" align="center" >No se encontraron resultados</th>	  
+			  <th scope="col">#</th>
+			  <th scope="col" align="center" >Profesor</th>
+			  <th scope="col" align="center">Fecha</th>
+			  <th scope="col" align="center">Hora</th>
+			  <th scope="col" align="center">Inscritos</th>
+			  <th scope="col" align="center">Vacantes</th>		
+			  <th scope="col" align="center">Asistencia</th>			  
 			</tr>
 		  </thead>
 		  <tbody>
+			<tr>
+				<td >No se encontraron resultados</td>	
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+				<td ></td>
+			</tr>
 		  </tbody>
 		</table>
+		<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
 	</div>
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-sm" role="document">
@@ -138,6 +160,7 @@
 		</div>
 	  </div>
 	</div>
+	
 
 </form>
 
@@ -262,16 +285,18 @@ function buscar(){
 		data:  {func1: 'buscaReservas', cursoSeleccionado: cursoSeleccionadoS, fecha: fechaS, hora: horaS},
 		beforeSend:function(){
 				console.log("before");
-				$('#mostrarDatos2').show();
+				//$('#mostrarDatos2').show();
 				
 			},
 		success:function(respuesta2){
-				$('#mostrarDatos3').hide();
+				console.log(respuesta2);
+				//$('#mostrarDatos3').hide();
 			
-				if (respuesta2 == ""){
-					
+				if (respuesta2 == ""){					
 					$('#mostrarDatos3').show();
 					return false;
+				}else{
+					$('#mostrarDatos2').show();
 				}
 
 				$.each(respuesta2, function(index, value){					

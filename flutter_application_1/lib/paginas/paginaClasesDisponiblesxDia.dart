@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/paginas/paginaPrincipal.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_1/main.dart';
 
 class ClasesDisponiblesxDia extends StatelessWidget {
   String tmpArray = "";
@@ -28,6 +30,7 @@ class ClasesDisponiblesxDia extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
+    print(rut);
     return new Scaffold(
       appBar: AppBar(
         title: Text("Listado de Horarios por Dia"),
@@ -61,7 +64,7 @@ class ElementoLista extends StatelessWidget {
         "http://192.168.43.61:8080/fta/app_flutter/gbRelacionAlumnoHorario.php",
         body: {
           "id_horario": lista[pos]["id"].toString(),
-          "id_alumno": 11111111.toString(),
+          "id_alumno": rut.toString(),
         });
     /*var jsonBody4 = response4.body;
     var jsonData4 = json.decode(jsonBody4);
@@ -106,7 +109,7 @@ class ElementoLista extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 new MaterialPageRoute(
-                                    builder: (context) => LoginApp()),
+                                    builder: (context) => Principal()),
                               );
                             },
                           )

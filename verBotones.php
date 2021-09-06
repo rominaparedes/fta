@@ -1,3 +1,9 @@
+<?php
+session_start();
+$resp=0;
+$res = $_SESSION['logged_in_user_id'];
+?>
+
 <head>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -8,8 +14,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<div class="container_admin" id ="container_admin">
-	<form action="?controller=alumno&action=guardar" method="post">
+<!--<div class="container" id ="container_admin">-->
+	<!--<form action="?controller=alumno&action=guardar" method="post">-->
+	<form id = "frmGuardar" method="post">
 		<div class="container">
 			<table class="table table-striped" align ='center'>
 				<thead>
@@ -120,9 +127,35 @@
 					<input class="form-control" type="number" value="1" id="cupos" name="cupos">
 				  </div>
 				</div>
-				<button type="submit" class="btn btn-primary">Ingresar</button>
+				<button id = "ingresar" type="submit" class="btn btn-primary">Ingresar</button>
+				<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
 			</div>	
 		</div>
 	</form>
-</div>
+<!--</div>-->
+
+<script>
+
+$(document).ready(function(){
+  $("#ingresar").click(function(){
+    var formulario = $("#frmGuardar").serializeArray();
+    $.ajax({
+      type: 'post',
+      dataType: 'json',
+      url: 'Controllers/alumnoController.php',
+      data: formulario,
+	  beforeSend:function(){
+				alert('Información Guardada');
+				},
+			success:function(respuesta){
+				alert('Información Guardada');
+			},
+			error:function(respuesta){
+					console.log(respuesta);
+				}
+    })
+  });
+}); 
+  
+</script>
 

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/paginas/paginaPrincipal.dart';
 import 'package:http/http.dart' as http;
 
+String rut = "";
+
 void main() => runApp(LoginApp());
 
 String username;
@@ -20,7 +22,7 @@ class LoginApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/paginaPrincipal': (BuildContext context) => new Principal(),
           /*todas las paginas*/
-          //'/LoginPage': (BuildContext context) => new LoginPage(),
+          '/LoginPage': (BuildContext context) => new LoginPage(),
         });
   }
 }
@@ -43,6 +45,8 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     var datauser = json.decode(response.body);
+
+    rut = datauser[0]["RUT"].toString();
 
     if (datauser.length == 0) {
       setState(() {

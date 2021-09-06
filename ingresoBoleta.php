@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+$res = $_SESSION['logged_in_user_id'];
+?>
 <head>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -92,7 +97,9 @@
 							<div class="col-10">
 								<div id="envio" disabled class="form-group col-md-10">
 									<button id = "ingresar" type="submit" class="btn btn-primary">Ingresar Boleta</button>
+									<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
 								</div>
+								
 							</div>
 						</div>	
 					</tr>
@@ -136,7 +143,7 @@ $(document).on('click', '#curso', function(event) {
 			} else{							
 					$('#ingresoDatos').hide();
 					$('#seleccionAlumnos').hide();
-					sinDatos = '<div class="container" style="display:yes"><table class="table table-striped" align ="center"><thead><tbody><tr><div class="form-group row"><div class="col-10"><div id="alumnos" disabled class="form-group col-md-10"><label for="boleta"><strong>No existen alumnos inscritos para este curso</strong></label></div></div></div></tr></tbody></thead></table></div>';
+					sinDatos = '<div class="container" style="display:yes"><table class="table table-striped" align ="center"><thead><tbody><tr><div class="form-group row"><div class="col-10"><div id="alumnos" disabled class="form-group col-md-10"><label for="boleta"><strong>No existen alumnos inscritos para este curso</strong></label></div><input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver"></div></div></tr></tbody></thead></table></div>';
 					$('#sinDatos').append(sinDatos);
 					return false;
 			}
@@ -161,7 +168,7 @@ $(document).ready(function(){
 		var mesPagado= $('#mpago').val();
 		var alumnoS= $('#alumno').val();
 		
-		alert(cursoSeleccionadoB+'-'+nroBoleta+'-'+cantClases+'-'+mesPagado+'-'+alumnoS);
+		//alert(cursoSeleccionadoB+'-'+nroBoleta+'-'+cantClases+'-'+mesPagado+'-'+alumnoS);
 		
 		
 		$.ajax({
@@ -173,7 +180,7 @@ $(document).ready(function(){
 			},
 			success:function(respuesta){
 				console.log(respuesta);
-				return false;
+				//return false;
 				if(respuesta == 0){
 					$.ajax({
 						type: 'post',

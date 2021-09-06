@@ -4,29 +4,39 @@
 <?php
 
 ?>
-	<!--<form action="Views/diseno/login.php" method="post">-->
-	<!--<div class="alert alert-success" id="alert" style="display: none;">&nbsp;</div>-->
-		<!--<form method="post" id="validaUsuario">-->
-				<div class="login" id="login" style="display: yes">
-					<table>
+	
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-secondary text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
 
-						<h3 class="text-center text-info">Acceso a Sistema FTA</h3>
-						<div class="form-group">
-							<label class="text-info" for="rut2">Ingresa tu RUT:</label><br>
-							<input type="text" class="form-control" id="rut" placeholder="sin puntos, guiones ni DV" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
-						</div>
-						<div class="form-group">
-							<label for="password2" class="text-info">Ingresa tu contraseña:</label><br>
-							<input type="text" id="password" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<input id = "consultar" name="consultar" class="btn btn-primary" value="Entrar" onclick="entrar()">
-							<!--<button type="submit" id="botonenviar">Entrar</button>-->
-						</div>
+            <div class="mb-md-5 mt-md-4 pb-5">
 
-					</table>
-				</div>	
-	<!--</form>-->
+              <h2 class="fw-bold mb-2 text-uppercase">Acceso a Sistema FTA</h2>
+              <p class="text-white-50 mb-5">Ingresa tu Rut y Contraseña</p>
+
+              <div class="form-outline form-white mb-4">
+                <input type="email" id="rut" class="form-control form-control-lg" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+                <label class="form-label" for="typeEmailX">Rut</label>
+              </div>
+
+              <div class="form-outline form-white mb-4">
+                <input type="password" id="password" class="form-control form-control-lg" />
+                <label class="form-label" for="typePasswordX" >Contraseña</label>
+              </div>
+
+			  <input id = "consultar" name="consultar" class="btn btn-outline-light btn-lg px-5" value="Entrar" onclick="entrar()">
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </html>
 
  <script>
@@ -57,6 +67,16 @@ function entrar(){
 	//$('#login').hide();
 	rut = $('#rut').val();
 	pass = $('#password').val();
+	
+	if(rut ==''){
+		alert("Debe ingresar rut");
+		$("#rut").focus();
+		return false;
+	}else if (pass == ''){
+		alert("Debe ingresar contraseña");
+		$("#password").focus();
+		return false;
+	}
 
 	$.ajax({
 		type: 'post',
@@ -76,8 +96,16 @@ function entrar(){
 						data:  {func02: 'obtPerfil', rutUsuario2: rut, passUsuario2: pass},
 						beforeSend:function(res){		
 						},
-						success:function(res){	
-							$(location).attr('href','Views/diseno/login.php?res='+res);
+						success:function(res){
+							if (res != 3){
+								$(location).attr('href','Views/diseno/login.php?res='+res);
+							}else{
+								alert('Usted no tiene acceso al sistema');
+								rut = $('#rut').val("");
+								pass = $('#password').val("");
+								return false;
+							}
+							
 						},
 						error:function(res){
 							console.log(res);

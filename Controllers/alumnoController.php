@@ -46,9 +46,11 @@ class UsuarioController
 			}
 		}
 	
-		$clases= new Clases(null, $_POST['fcDesde'],$_POST['fcHasta'],$_POST['hrDesde'],$_POST['hrHasta'],$lunes , $martes, $miercoles ,$jueves ,$viernes ,$sabado ,$domingo,$_POST['cupos'],trim($_POST['curso']));
+		$clases= new Clases(null, $_POST['fcDesde'],$_POST['fcHasta'],$_POST['hrDesde'],$_POST['hrHasta'],$lunes , $martes, $miercoles ,$jueves ,$viernes ,$sabado ,$domingo,$_POST['cupos'],$_POST['curso']);
 
 		Clases::guardarClase($clases);
+		
+		
 	}
 	
 	
@@ -81,6 +83,10 @@ class UsuarioController
 	
 	function detAsis(){		
 		require_once('consumoMensual.php');
+	}
+	
+	function cerrarSession(){		
+		require_once('cerrarSession.php');
 	}
 	
 	function obtenerAlumnoss($curso){		
@@ -134,11 +140,13 @@ class UsuarioController
 						if ($clasesDisponiblesxCurso[$i]['DOMINGO'] == 1){
 							$dias = $dias .' Domingo';
 						}
-						$arreglo[] = array('horas'=> $clasesDisponiblesxCurso[$i]['HR_INICIO'].' a '. $clasesDisponiblesxCurso[$i]['HR_FIN'].' - '. $dias , 'id'=> $clasesDisponiblesxCurso[$i]['ID_HORARIO']);			
+						
 					}
 					
 				}
+				$arreglo[] = array('horas'=> $clasesDisponiblesxCurso[$i]['HR_INICIO'].' a '. $clasesDisponiblesxCurso[$i]['HR_FIN'].' - '. $dias , 'id'=> $clasesDisponiblesxCurso[$i]['ID_HORARIO']);
 			}
+					
 		echo json_encode($arreglo);
 			
 			
@@ -200,6 +208,42 @@ class UsuarioController
 			Clases::guardarAsigna($sele,$curso,$prof);
 			Clases::actualizaHorario($sele,$curso,$prof);
 		}
+	}
+	
+	function guardarIngreso(){
+		
+		$lunes = 0;
+		$martes = 0;
+		$miercoles = 0;
+		$jueves = 0;
+		$viernes = 0;
+		$sabado = 0;
+		$domingo = 0;
+
+		foreach($_POST['dias'] as $selected){
+			
+			if ($selected == 1){
+				$lunes = 1;
+			}else if ($selected == 2){
+				$martes = 1;
+			}else if ($selected == 3){
+				$miercoles = 1;
+			}else if ($selected == 4){
+				$jueves = 1;					
+			}else if ($selected ==5){
+				$viernes = 1;					
+			}else if ($selected == 6){
+				$sabado = 1;					
+			}else if ($selected == 7){
+				$domingo = 1;					
+			}
+		}
+	
+		$clases= new Clases(null, $_POST['fcDesde'],$_POST['fcHasta'],$_POST['hrDesde'],$_POST['hrHasta'],$lunes , $martes, $miercoles ,$jueves ,$viernes ,$sabado ,$domingo,$_POST['cupos'],$_POST['curso']);
+
+		Clases::guardarClase($clases);
+		//echo json_encode(0);		
+		
 	}
 	
 	function guardarBoleta($nrBoleta,$cantClas,$msPag,$alSel,$cursoSel){
@@ -307,6 +351,13 @@ if (isset($_POST['horarios']) && !empty($_POST['horarios'])){
 	$usuario = new UsuarioController();
 	
 	$usuario->guardarAsignacion();
+	
+}
+
+if (isset($_POST['dias']) && !empty($_POST['dias'])){
+	
+	$usuario = new UsuarioController();	
+	$usuario->guardarIngreso();
 	
 }
 
