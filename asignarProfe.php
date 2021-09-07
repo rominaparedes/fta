@@ -74,8 +74,9 @@ $res = $_SESSION['logged_in_user_id'];
 				</tbody>
 			</thead>
 		</table>	
+		<input type="hidden" id="res" value="<?php echo $res; ?>">
 		<button id = "asociar" type="submit" class="btn btn-primary">Asociar</button>
-		<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
+		<input id = "volver" type="button" class="btn btn-primary" name="Volver" value="Volver">
 	</div>
 </form>
 
@@ -101,6 +102,11 @@ $(document).ready(function(){
 				}
     })
   });
+  
+  $("#volver").click(function(){
+		  var resp = $('#res').val();
+		$(location).attr('href','Views/diseno/login.php?res='+resp);
+	  });
 }); 
   
   

@@ -96,8 +96,9 @@ $res = $_SESSION['logged_in_user_id'];
 						<div class="form-group row">
 							<div class="col-10">
 								<div id="envio" disabled class="form-group col-md-10">
+									<input type="hidden" id="res" value="<?php echo $res; ?>">
 									<button id = "ingresar" type="submit" class="btn btn-primary">Ingresar Boleta</button>
-									<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
+									<input id = "volver" type="button" class="btn btn-primary" name="Volver" value="Volver">
 								</div>
 								
 							</div>
@@ -211,6 +212,11 @@ $(document).ready(function(){
 		
 	
 	});	
+	
+	 $("#volver").click(function(){
+		  var resp = $('#res').val();
+		$(location).attr('href','Views/diseno/login.php?res='+resp);
+	  });
 	
 });
 	

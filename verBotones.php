@@ -127,8 +127,9 @@ $res = $_SESSION['logged_in_user_id'];
 					<input class="form-control" type="number" value="1" id="cupos" name="cupos">
 				  </div>
 				</div>
+				<input type="hidden" id="res" value="<?php echo $res; ?>">
 				<button id = "ingresar" type="submit" class="btn btn-primary">Ingresar</button>
-				<input type="button" class="btn btn-primary" onclick="history.back()" name="Volver" value="Volver">
+				<input id = "volver" type="button" class="btn btn-primary" name="Volver" value="Volver">
 			</div>	
 		</div>
 	</form>
@@ -138,6 +139,20 @@ $res = $_SESSION['logged_in_user_id'];
 
 $(document).ready(function(){
   $("#ingresar").click(function(){
+	  
+	var hrDesde = $('#hrDesde').val();
+	var hrHasta = $('#hrHasta').val();
+
+	
+	if (hrDesde == ""){
+		alert("Debe ingresar Hora Desde");
+		return false;		
+	}else if(hrHasta == ""){
+		alert("Debe ingresar Hora Hasta");
+		return false;
+	}
+
+	
     var formulario = $("#frmGuardar").serializeArray();
     $.ajax({
       type: 'post',
@@ -149,11 +164,17 @@ $(document).ready(function(){
 				},
 			success:function(respuesta){
 				alert('Información Guardada');
+				
 			},
 			error:function(respuesta){
 					console.log(respuesta);
 				}
     })
+  });
+  
+  $("#volver").click(function(){
+	  var resp = $('#res').val();
+	$(location).attr('href','Views/diseno/login.php?res='+resp);
   });
 }); 
   
