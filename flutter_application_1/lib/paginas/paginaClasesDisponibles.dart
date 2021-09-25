@@ -30,26 +30,47 @@ class ClasesDisponibles extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    print(rut);
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text("Listado de Horarios"),
-        backgroundColor: Colors.purple,
-      ),
-      body: new FutureBuilder<List>(
-        future: bus(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? new ElementoLista(
-                  lista: snapshot.data,
-                )
-              : new Center(
-                  child: new CircularProgressIndicator(),
-                );
-        },
-      ),
-    );
+    if (s == 'F') {
+      return new Scaffold(
+        appBar: AppBar(
+          title: Text("Listado de Horarios"),
+          backgroundColor: Colors.purple,
+        ),
+        body: new FutureBuilder<List>(
+          future: bus(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? new ElementoLista(
+                    lista: snapshot.data,
+                  )
+                : new Center(
+                    child: new CircularProgressIndicator(),
+                  );
+          },
+        ),
+      );
+    } else {
+      return new Scaffold(
+        appBar: AppBar(
+          title: Text("Listado de Horarios"),
+          backgroundColor: Colors.red,
+        ),
+        body: new FutureBuilder<List>(
+          future: bus(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? new ElementoLista(
+                    lista: snapshot.data,
+                  )
+                : new Center(
+                    child: new CircularProgressIndicator(),
+                  );
+          },
+        ),
+      );
+    }
   }
 }
 
@@ -84,74 +105,145 @@ class ElementoLista extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(lista.length);
-    if (lista.length > 0) {
-      return new ListView.builder(
-        itemCount: lista == null ? 0 : lista.length,
-        itemBuilder: (context, posicion) {
-          return new Container(
-            padding: EdgeInsets.all(2.0),
-            child: new GestureDetector(
-              child: new RaisedButton(
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0)),
-                onPressed: () {
-                  pos = posicion;
-                  grabar();
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Ingreso Correcto"),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text("OK"),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Principal()),
-                                );
-                              },
-                            )
-                          ],
-                        );
-                      });
-                },
-                color: Colors.deepPurple,
-                child: new Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    lista[posicion]["horas"],
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
+    if (s == 'F') {
+      if (lista.length > 0) {
+        return new ListView.builder(
+          itemCount: lista == null ? 0 : lista.length,
+          itemBuilder: (context, posicion) {
+            return new Container(
+              padding: EdgeInsets.all(2.0),
+              child: new GestureDetector(
+                child: new RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  onPressed: () {
+                    pos = posicion;
+                    grabar();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Ingreso Correcto"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Principal()),
+                                  );
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  color: Colors.deepPurple,
+                  child: new Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      lista[posicion]["horas"],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      );
-    } else {
-      return new Container(
-        padding: EdgeInsets.all(10.0),
-        child: new GestureDetector(
-          child: new RaisedButton(
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            onPressed: () {},
-            color: Colors.deepPurple,
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                "Este curso ya lo tienes reservado¡",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            );
+          },
+        );
+      } else {
+        return new Container(
+          padding: EdgeInsets.all(10.0),
+          child: new GestureDetector(
+            child: new RaisedButton(
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              onPressed: () {},
+              color: Colors.deepPurple,
+              child: new Container(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  "Este curso ya lo tienes reservado¡",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
+      }
+    } else {
+      print(lista.length);
+      if (lista.length > 0) {
+        return new ListView.builder(
+          itemCount: lista == null ? 0 : lista.length,
+          itemBuilder: (context, posicion) {
+            return new Container(
+              padding: EdgeInsets.all(2.0),
+              child: new GestureDetector(
+                child: new RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  onPressed: () {
+                    pos = posicion;
+                    grabar();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Ingreso Correcto"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Principal()),
+                                  );
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  color: Colors.red,
+                  child: new Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      lista[posicion]["horas"],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      } else {
+        return new Container(
+          padding: EdgeInsets.all(10.0),
+          child: new GestureDetector(
+            child: new RaisedButton(
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              onPressed: () {},
+              color: Colors.red,
+              child: new Container(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  "Este curso ya lo tienes reservado¡",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
     }
   }
 }

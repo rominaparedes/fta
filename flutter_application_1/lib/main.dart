@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 
 String rut = "";
 
+TextEditingController controllerUser = new TextEditingController();
+TextEditingController controllerPass = new TextEditingController();
+
 void main() => runApp(LoginApp());
 
 String username;
@@ -32,8 +35,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController controllerUser = new TextEditingController();
-  TextEditingController controllerPass = new TextEditingController();
+  /*bool _isObscure = true;
+  final _namefocusNode = FocusNode();
+  final _pwfocusNode = FocusNode();
+  final _nameController = TextEditingController();
+  final _pwController = TextEditingController();*/
 
   String mensaje = '';
 
@@ -46,8 +52,6 @@ class _LoginPageState extends State<LoginPage> {
 
     var datauser = json.decode(response.body);
 
-    rut = datauser[0]["RUT"].toString();
-
     if (datauser.length == 0) {
       setState(() {
         mensaje = "usuario o contraseña incorrecta";
@@ -55,11 +59,12 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       //if (datauser[0]["nivel"] == "admin") {
       //Navigator.pushReplacementNamed(context, "/paginaPrincipal");
-      Navigator.of(context).pushNamed('/paginaPrincipal',
-          arguments: <String, String>{
-            'nombre': datauser[0]["NOMBRE_PERSONA"],
-            'rut': datauser[0]["RUT"]
-          });
+      Navigator.of(context)
+          .pushNamed('/paginaPrincipal', arguments: <String, String>{
+        'nombre': datauser[0]["NOMBRE_PERSONA"] + '-' + datauser[0]["SEXO"],
+        'rut': datauser[0]["RUT"] /*,
+        'sexo': datauser[0]["SEXO"]*/
+      });
       //} else if (datauser[0]["nivel"] == "ventas") {
       //Navigator.pushReplacement(context, "/paginaPrincipal");
       //}
@@ -83,20 +88,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Column(
             children: <Widget>[
-              new Container(
-                padding: EdgeInsets.only(top: 77.0),
-                child: new CircleAvatar(
-                  backgroundColor: Color(0xF81F7F3),
-                  child: new Image(
-                    width: 135,
-                    height: 135,
-                    image: new AssetImage("assets/images/img_pequeña_fta.png"),
-                  ),
-                ),
-                width: 170.0,
-                height: 170.0,
-                decoration: new BoxDecoration(shape: BoxShape.circle),
-              ),
               Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
@@ -113,7 +104,8 @@ class _LoginPageState extends State<LoginPage> {
                           boxShadow: [
                             BoxShadow(color: Colors.black12, blurRadius: 5)
                           ]),
-                      child: TextFormField(
+                      child: TextField(
+                        //focusNode: _namefocusNode,
                         controller: controllerUser,
                         decoration: InputDecoration(
                             icon: Icon(

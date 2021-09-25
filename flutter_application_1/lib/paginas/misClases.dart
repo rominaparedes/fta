@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/paginas/paginaPrincipal.dart';
 
 class MisClases extends StatelessWidget {
   Future<List> busxAlumno() async {
@@ -20,27 +21,45 @@ class MisClases extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(rut);
-    //bus();
-    //print(lista[pos]["curso"]);
-    return new Scaffold(
-        appBar: AppBar(
-          title: Text("Mis Clases"),
-          backgroundColor: Colors.purple,
-        ),
-        body: new FutureBuilder<List>(
-          future: busxAlumno(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) print(snapshot.error);
-            return snapshot.hasData
-                ? new Card(
-                    lista: snapshot.data,
-                  )
-                : new Center(
-                    child: new CircularProgressIndicator(),
-                  );
-          },
-        ));
+    if (s == 'F') {
+      return new Scaffold(
+          appBar: AppBar(
+            title: Text("Mis Clases"),
+            backgroundColor: Colors.purple,
+          ),
+          body: new FutureBuilder<List>(
+            future: busxAlumno(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? new Card(
+                      lista: snapshot.data,
+                    )
+                  : new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+            },
+          ));
+    } else {
+      return new Scaffold(
+          appBar: AppBar(
+            title: Text("Mis Clases"),
+            backgroundColor: Colors.red,
+          ),
+          body: new FutureBuilder<List>(
+            future: busxAlumno(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? new Card(
+                      lista: snapshot.data,
+                    )
+                  : new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+            },
+          ));
+    }
   }
 }
 

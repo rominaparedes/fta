@@ -27,7 +27,7 @@ $res = $_SESSION['logged_in_user_id'];
 								<?php 
 								foreach ($clases as $cla){
 										?> 
-								<td><div class="form-check form-check-inline">
+								<td><div class="form-check">
 								  <input class="form-check-input" type="radio" id="curso" name="curso" value="<?php  echo $cla['ID_CURSO']?>">
 								  <label class="form-check-label" for="curso"><?php echo $cla['NOMBRE_CURSO'] ?></label>
 								</div></td>

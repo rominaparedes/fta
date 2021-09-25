@@ -10,87 +10,184 @@ import 'package:flutter_application_1/paginas/paginaClasesDisponiblesxDia.dart';
 import 'package:flutter_application_1/paginas/paginaClasesDisponibles.dart';
 
 String tmpArray = "";
-//String rutOrigen = "";
+String rutOrigen = "";
+String s;
+String n;
+String r;
+bool sex = true;
 
 class Principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(rut);
+    //print(rut);
     final arguments = ModalRoute.of(context).settings.arguments as Map;
-    //rutOrigen = arguments['rut'];
+    if (arguments == null) {
+      s = s;
+      n = n;
+      r = r;
+    } else {
+      s = arguments['nombre'].split('-')[1];
+      n = arguments['nombre'].split('-')[0];
+      r = arguments['rut'];
+    }
+    //sexo = arguments['nombre'].split('-')[1];
+    //s = sexo[sexo.length - 1];
+    //print(arguments['nombre'].split('-')[1]);
+    print(s);
+    print('ss');
 
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Bienvenido(a) ' + arguments['nombre']),
-            backgroundColor: Colors.purple,
-          ),
-          drawer: MenuLateral(),
-          body: SafeArea(
-              child: Center(
-            child: Radiobutton(),
-          ))),
-    );
+    if (s == 'F') {
+      return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Bienvenida ' + n),
+              backgroundColor: Colors.purple,
+            ),
+            drawer: MenuLateral(),
+            body: SafeArea(
+                child: Center(
+              child: Radiobutton(),
+            ))),
+      );
+    } else {
+      return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Bienvenido ' + n),
+              backgroundColor: Colors.red,
+            ),
+            drawer: MenuLateral(),
+            body: SafeArea(
+                child: Center(
+              child: Radiobutton(),
+            ))),
+      );
+    }
   }
 }
 
 class MenuLateral extends StatelessWidget {
   @override
   Widget build(BuildContext ctxt) {
-    return new Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: <Color>[Colors.purple, Colors.purple])),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Material(
-                      elevation: 10,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Image.asset("assets/images/img_pequeña_fta.png",
-                            height: 90, width: 90),
+    if (s == 'F') {
+      return new Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[Colors.purple, Colors.purple])),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Material(
+                        elevation: 10,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset(
+                              "assets/images/img_pequeña_fta.png",
+                              height: 90,
+                              width: 90),
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Mis Clases',
-                      style: TextStyle(color: Colors.white, fontSize: 15.0),
-                    )
-                  ],
-                ),
-              )),
-          CustomListTile(
-              Icons.person,
-              'Clases Reservadas',
-              () => {
-                    Navigator.pop(ctxt),
-                    Navigator.push(
-                        ctxt,
-                        new MaterialPageRoute(
-                            builder: (context) => MisClases()))
-                  }),
-          CustomListTile(
-              Icons.notifications,
-              'Cupos',
-              () => {
-                    Navigator.pop(ctxt),
-                    Navigator.push(ctxt,
-                        new MaterialPageRoute(builder: (context) => Cupos()))
-                  }),
-          CustomListTile(
-              Icons.logout,
-              'Cerra Session',
-              () => {
-                    Navigator.pop(ctxt),
-                    Navigator.push(ctxt,
-                        new MaterialPageRoute(builder: (context) => LoginApp()))
-                  })
-        ],
-      ),
-    );
+                      Text(
+                        'Mis Clases',
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
+                      )
+                    ],
+                  ),
+                )),
+            CustomListTile(
+                Icons.person,
+                'Clases Reservadas',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(
+                          ctxt,
+                          new MaterialPageRoute(
+                              builder: (context) => MisClases()))
+                    }),
+            CustomListTile(
+                Icons.notifications,
+                'Cupos',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(ctxt,
+                          new MaterialPageRoute(builder: (context) => Cupos()))
+                    }),
+            CustomListTile(
+                Icons.logout,
+                'Cerra Session',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(
+                          ctxt,
+                          new MaterialPageRoute(
+                              builder: (context) => LoginApp()))
+                    })
+          ],
+        ),
+      );
+    } else {
+      return new Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[Colors.red, Colors.red])),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Material(
+                        elevation: 10,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset(
+                              "assets/images/img_pequeña_fta.png",
+                              height: 90,
+                              width: 90),
+                        ),
+                      ),
+                      Text(
+                        'Mis Clases',
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
+                      )
+                    ],
+                  ),
+                )),
+            CustomListTile(
+                Icons.person,
+                'Clases Reservadas',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(
+                          ctxt,
+                          new MaterialPageRoute(
+                              builder: (context) => MisClases()))
+                    }),
+            CustomListTile(
+                Icons.notifications,
+                'Cupos',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(ctxt,
+                          new MaterialPageRoute(builder: (context) => Cupos()))
+                    }),
+            CustomListTile(
+                Icons.logout,
+                'Cerra Session',
+                () => {
+                      Navigator.pop(ctxt),
+                      Navigator.push(
+                          ctxt,
+                          new MaterialPageRoute(
+                              builder: (context) => LoginApp()))
+                    })
+          ],
+        ),
+      );
+    }
   }
 }
 
@@ -228,92 +325,182 @@ class RadioButtonWidget extends State {
   }*/
 
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text('\nSelecciona opción para realizar búsqueda de cursos\n'),
-        RadioListTile(
-          groupValue: radioItem,
-          title: Text('Curso'),
-          value: 't',
-          onChanged: (val) {
-            setState(() {
-              radioItem = val;
-            });
-          },
-        ),
-        RadioListTile(
-          groupValue: radioItem,
-          title: Text('Fecha'),
-          value: 'f',
-          onChanged: (val) {
-            setState(() {
-              radioItem = val;
-            });
-          },
-        ),
-        radioItem == 't'
-            ? Column(children: [
-                DropdownButton(
-                  value: selectedClase,
-                  items: data.map(
-                    (list) {
-                      return DropdownMenuItem(
-                          child: Text(list["NOMBRE_CURSO"]),
-                          value: list["ID_CURSO"].toString());
+    if (s == 'F') {
+      return Column(
+        children: <Widget>[
+          Text('\nSelecciona opción para realizar búsqueda de cursos\n'),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text('Curso'),
+            value: 't',
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text('Fecha'),
+            value: 'f',
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          radioItem == 't'
+              ? Column(children: [
+                  DropdownButton(
+                    value: selectedClase,
+                    items: data.map(
+                      (list) {
+                        return DropdownMenuItem(
+                            child: Text(list["NOMBRE_CURSO"]),
+                            value: list["ID_CURSO"].toString());
+                      },
+                    ).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedClase = value; //funciona
+                        //print(selectedClase);
+                      });
                     },
-                  ).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedClase = value; //funciona
-                      //print(selectedClase);
-                    });
-                  },
-                ),
-              ])
-            : radioItem == 'f'
-                ? Expanded(
-                    child: ListView(
-                      children: values.keys.map((String key) {
-                        return new CheckboxListTile(
-                          title: new Text(key),
-                          value: values[key],
-                          activeColor: Colors.pink,
-                          checkColor: Colors.white,
-                          onChanged: (bool value) {
-                            setState(() {
-                              values[key] = value;
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  )
-                : Text(''),
-        RaisedButton(
-            child: new Text("Buscar",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white)),
-            color: Colors.deepPurple,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            onPressed: () {
-              if (radioItem == "t") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ClasesDisponibles(selectedClase)),
-                );
-              } else {
-                getCheckboxItems();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ClasesDisponiblesxDia(tmpArray.toString())),
-                );
-              }
-            })
-      ],
-    );
+                  ),
+                ])
+              : radioItem == 'f'
+                  ? Expanded(
+                      child: ListView(
+                        children: values.keys.map((String key) {
+                          return new CheckboxListTile(
+                            title: new Text(key),
+                            value: values[key],
+                            activeColor: Colors.pink,
+                            checkColor: Colors.white,
+                            onChanged: (bool value) {
+                              setState(() {
+                                values[key] = value;
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  : Text(''),
+          RaisedButton(
+              child: new Text("Buscar",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white)),
+              color: Colors.deepPurple,
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              onPressed: () {
+                if (radioItem == "t") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ClasesDisponibles(selectedClase)),
+                  );
+                } else {
+                  getCheckboxItems();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClasesDisponiblesxDia(tmpArray.toString())),
+                  );
+                }
+              })
+        ],
+      );
+    } else {
+      return Column(
+        children: <Widget>[
+          Text('\nSelecciona opción para realizar búsqueda de cursos\n'),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text('Curso'),
+            value: 't',
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          RadioListTile(
+            groupValue: radioItem,
+            title: Text('Fecha'),
+            value: 'f',
+            onChanged: (val) {
+              setState(() {
+                radioItem = val;
+              });
+            },
+          ),
+          radioItem == 't'
+              ? Column(children: [
+                  DropdownButton(
+                    value: selectedClase,
+                    items: data.map(
+                      (list) {
+                        return DropdownMenuItem(
+                            child: Text(list["NOMBRE_CURSO"]),
+                            value: list["ID_CURSO"].toString());
+                      },
+                    ).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedClase = value; //funciona
+                        //print(selectedClase);
+                      });
+                    },
+                  ),
+                ])
+              : radioItem == 'f'
+                  ? Expanded(
+                      child: ListView(
+                        children: values.keys.map((String key) {
+                          return new CheckboxListTile(
+                            title: new Text(key),
+                            value: values[key],
+                            activeColor: Colors.pink,
+                            checkColor: Colors.white,
+                            onChanged: (bool value) {
+                              setState(() {
+                                values[key] = value;
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  : Text(''),
+          RaisedButton(
+              child: new Text("Buscar",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white)),
+              color: Colors.red,
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              onPressed: () {
+                if (radioItem == "t") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ClasesDisponibles(selectedClase)),
+                  );
+                } else {
+                  getCheckboxItems();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClasesDisponiblesxDia(tmpArray.toString())),
+                  );
+                }
+              })
+        ],
+      );
+    }
   }
 }

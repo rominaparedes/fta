@@ -15,7 +15,7 @@ class Cupos extends StatelessWidget {
   Future<List> buscaCuposPorDia() async {
     final response2 = await http.post(
         "http://192.168.43.61:8080/fta/app_flutter/getClasesReservaCupos.php",
-        body: {"id_alumno": rut.toString(), "dia": dia.toString()});
+        body: {"id_alumno": r, "dia": dia.toString()});
     var jsonBody2 = response2.body;
     var jsonData2 = json.decode(jsonBody2);
 
@@ -42,24 +42,45 @@ class Cupos extends StatelessWidget {
       dia = 'Domingo';
     }
 
-    return new Scaffold(
-        appBar: AppBar(
-          title: Text("Reserva de Cupos"),
-          backgroundColor: Colors.purple,
-        ),
-        body: new FutureBuilder<List>(
-          future: buscaCuposPorDia(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) print(snapshot.error);
-            return snapshot.hasData
-                ? new Card(
-                    lista: snapshot.data,
-                  )
-                : new Center(
-                    child: new CircularProgressIndicator(),
-                  );
-          },
-        ));
+    if (s == 'F') {
+      return new Scaffold(
+          appBar: AppBar(
+            title: Text("Reserva de Cupos"),
+            backgroundColor: Colors.purple,
+          ),
+          body: new FutureBuilder<List>(
+            future: buscaCuposPorDia(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? new Card(
+                      lista: snapshot.data,
+                    )
+                  : new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+            },
+          ));
+    } else {
+      return new Scaffold(
+          appBar: AppBar(
+            title: Text("Reserva de Cupos"),
+            backgroundColor: Colors.red,
+          ),
+          body: new FutureBuilder<List>(
+            future: buscaCuposPorDia(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? new Card(
+                      lista: snapshot.data,
+                    )
+                  : new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+            },
+          ));
+    }
   }
 }
 
@@ -68,10 +89,14 @@ class Card extends StatelessWidget {
     var response4 = await http.post(
         "http://192.168.43.61:8080/fta/app_flutter/gbRelacionAlumnoCupoHorario.php",
         body: {
-          "id_alumno": rut.toString(),
+          "id_alumno": r.toString(),
           "id_curso": lista[pos]["id_curso"],
           "id_horario": lista[pos]["id"],
         });
+    var jsonBody3 = response4.body;
+    var jsonData3 = json.decode(jsonBody3);
+
+    print(jsonBody3);
   }
 
   final List lista;

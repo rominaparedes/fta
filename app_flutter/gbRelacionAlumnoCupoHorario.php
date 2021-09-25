@@ -11,6 +11,6 @@ $queryResult = $connect->query("INSERT INTO reserva_cupo_clase VALUES ($alumno,$
 
 
 
-echo json_encode('grabado');
+echo json_encode($alumno);
 
 ?>
